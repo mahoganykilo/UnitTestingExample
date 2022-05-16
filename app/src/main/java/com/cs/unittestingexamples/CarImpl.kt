@@ -11,7 +11,7 @@ class Engine(state: EngineState) {
     private var engineState = state
 
     fun switchOn() {
-        EngineState.ON
+        engineState = EngineState.ON
     }
 
     fun switchOff() {
@@ -23,8 +23,7 @@ class Engine(state: EngineState) {
 }
 
 
-class CarImpl: Car {
-    private val engine: Engine? = null
+class CarImpl(private val engine: Engine?): Car {
 
     override fun switchOn() {
         if (engine == null) {
