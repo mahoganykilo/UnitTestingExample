@@ -12,14 +12,14 @@ class ExampleUnitTest {
 
     @Test
     fun engineIsOff_EngineTurnsOn_WhenSwitchedOn() {
-        val classUnderTest = CarImpl(EngineState.OFF)
+        val classUnderTest = CarImpl()
         classUnderTest.switchOn()
         assertEquals(classUnderTest.checkEngineState(), EngineState.ON)
     }
 
     @Test
     fun engineIsOn_EngineTurnsOff_WhenSwitchedOff() {
-        val classUnderTest = CarImpl(EngineState.ON)
+        val classUnderTest = CarImpl()
         classUnderTest.switchOff()
         assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
     }

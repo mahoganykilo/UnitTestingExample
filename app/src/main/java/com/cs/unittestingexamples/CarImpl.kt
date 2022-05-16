@@ -1,21 +1,49 @@
 package com.cs.unittestingexamples
 
+import java.lang.IllegalStateException
+
 enum class EngineState {
     ON,
     OFF
 }
 
-class CarImpl(state: EngineState): Car {
+class Engine(state: EngineState) {
     private var engineState = state
-    override fun switchOn() {
+
+    fun switchOn() {
         EngineState.ON
     }
 
-    override fun switchOff() {
+    fun switchOff() {
         engineState = EngineState.OFF
+    }
+    fun getEngineState(): EngineState {
+        return engineState
+    }
+}
+
+
+class CarImpl: Car {
+    private val engine: Engine? = null
+
+    override fun switchOn() {
+        if (engine == null) {
+            throw IllegalStateException("No Engine!")
+        }
+        engine.switchOn()
+    }
+
+    override fun switchOff() {
+        if (engine == null) {
+            throw IllegalStateException("No Engine!")
+        }
+        engine.switchOff()
     }
 
     override fun checkEngineState(): EngineState {
-        return engineState
+        if (engine == null) {
+            throw IllegalStateException("No Engine!")
+        }
+        return engine.getEngineState()
     }
 }
