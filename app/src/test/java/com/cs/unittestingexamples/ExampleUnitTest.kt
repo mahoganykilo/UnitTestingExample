@@ -1,6 +1,8 @@
 package com.cs.unittestingexamples
 
+import org.junit.Assert
 import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doReturn
@@ -18,16 +20,23 @@ class ExampleUnitTest {
     private val classUnderTest = CarImpl(engine)
 
     @Test
-    fun engineIsOff_EngineTurnsOn_WhenSwitchedOn() {
+    fun engineIsOff_EngineTurnsOn_WhenCarSwitchedOn() {
         whenever(engine.getEngineState()) doReturn EngineState.ON
         classUnderTest.switchOn()
         assertEquals(classUnderTest.checkEngineState(), EngineState.ON)
     }
 
     @Test
-    fun engineIsOn_EngineTurnsOff_WhenSwitchedOff() {
+    fun engineIsOn_EngineTurnsOff_WhenCarSwitchedOff() {
         whenever(engine.getEngineState()) doReturn EngineState.OFF
         classUnderTest.switchOff()
         assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
+    }
+
+    @Test(expected = IllegalStateException::class)
+    fun noEngine_CarDoesntStart() {
+        val noEngineCarTest = CarImpl(null)
+        noEngineCarTest.switchOn()
+        fail()
     }
 }
