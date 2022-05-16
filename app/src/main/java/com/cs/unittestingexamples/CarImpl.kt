@@ -7,17 +7,17 @@ enum class EngineState {
     OFF
 }
 
-class Engine(state: EngineState) {
+class EngineImpl(state: EngineState): Engine {
     private var engineState = state
 
-    fun switchOn() {
+    override fun switchOn() {
         engineState = EngineState.ON
     }
 
-    fun switchOff() {
+    override fun switchOff() {
         engineState = EngineState.OFF
     }
-    fun getEngineState(): EngineState {
+    override fun getEngineState(): EngineState {
         return engineState
     }
 }
