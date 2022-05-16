@@ -1,6 +1,6 @@
 package com.cs.unittestingexamples
 
-interface Engine {
+interface Car {
 
     fun switchOn()
     fun switchOff()

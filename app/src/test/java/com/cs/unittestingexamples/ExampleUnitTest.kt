@@ -10,7 +10,7 @@ import org.junit.Test
  */
 class ExampleUnitTest {
 
-    private val classUnderTest = EngineImpl()
+    private val classUnderTest = CarImpl()
     @Test
     fun engineTurnsOn_WhenSwitchedOn() {
         classUnderTest.switchOn()
