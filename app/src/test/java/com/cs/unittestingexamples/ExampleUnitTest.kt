@@ -14,20 +14,19 @@ import org.mockito.kotlin.whenever
  */
 class ExampleUnitTest {
 
+    private val engine: Engine = mock()
+    private val classUnderTest = CarImpl(engine)
+
     @Test
     fun engineIsOff_EngineTurnsOn_WhenSwitchedOn() {
-        val engine:Engine= mock()
         whenever(engine.getEngineState()) doReturn EngineState.ON
-        val classUnderTest = CarImpl(engine)
         classUnderTest.switchOn()
         assertEquals(classUnderTest.checkEngineState(), EngineState.ON)
     }
 
     @Test
     fun engineIsOn_EngineTurnsOff_WhenSwitchedOff() {
-        val engine:Engine= mock()
         whenever(engine.getEngineState()) doReturn EngineState.OFF
-        val classUnderTest = CarImpl(engine)
         classUnderTest.switchOff()
         assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
     }
