@@ -5,8 +5,8 @@ enum class EngineState {
     OFF
 }
 
-class CarImpl: Car {
-    private var engineState = EngineState.OFF
+class CarImpl(state: EngineState): Car {
+    private var engineState = state
     override fun switchOn() {
         EngineState.ON
     }
