@@ -7,7 +7,7 @@ enum class EngineState {
     OFF
 }
 
-class Engine(state: EngineState) {
+class Engine(state: EngineState, cylinders: Int, valves: String, capacity: Double) {
     private var engineState = state
 
     fun switchOn() {
