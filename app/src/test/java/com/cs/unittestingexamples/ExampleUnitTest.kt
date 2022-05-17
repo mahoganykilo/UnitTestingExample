@@ -10,17 +10,23 @@ import org.junit.Test
  */
 class ExampleUnitTest {
 
+    private val classUnderTest = CarImpl()
+
     @Test
     fun engineIsOff_EngineTurnsOn_WhenSwitchedOn() {
-        val classUnderTest = CarImpl()
         classUnderTest.switchOn()
         assertEquals(classUnderTest.checkEngineState(), EngineState.ON)
     }
 
     @Test
     fun engineIsOn_EngineTurnsOff_WhenSwitchedOff() {
-        val classUnderTest = CarImpl()
         classUnderTest.switchOff()
         assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
+    }
+
+    @Test
+    fun engineMissing_NothingHappens_WhenSwitchedOn() {
+        classUnderTest.switchOn()
+        assertEquals(classUnderTest.checkEngineState(), EngineState.MISSING)
     }
 }

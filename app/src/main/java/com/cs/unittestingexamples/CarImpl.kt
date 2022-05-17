@@ -4,7 +4,8 @@ import java.lang.IllegalStateException
 
 enum class EngineState {
     ON,
-    OFF
+    OFF,
+    MISSING
 }
 
 class Engine(state: EngineState) {
@@ -28,21 +29,21 @@ class CarImpl: Car {
 
     override fun switchOn() {
         if (engine == null) {
-            throw IllegalStateException("No Engine!")
+            return
         }
         engine.switchOn()
     }
 
     override fun switchOff() {
         if (engine == null) {
-            throw IllegalStateException("No Engine!")
+            return
         }
         engine.switchOff()
     }
 
     override fun checkEngineState(): EngineState {
         if (engine == null) {
-            throw IllegalStateException("No Engine!")
+            return EngineState.MISSING
         }
         return engine.getEngineState()
     }
