@@ -40,6 +40,8 @@ class CarImpl(private val engine: Engine?, private val battery: Battery?): Car {
             battery == null -> batteryLight = true
             battery.getCharge() <= 0 -> batteryLight = true
             engine == null -> engineLight = true
+
+            // As we test for engine == null above this logic implicitly requires engine != null
             battery.getCharge() > 0 -> engine.switchOn()
         }
     }

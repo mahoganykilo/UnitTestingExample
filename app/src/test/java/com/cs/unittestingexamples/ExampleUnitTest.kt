@@ -16,11 +16,16 @@ import org.mockito.kotlin.whenever
 class ExampleUnitTest {
 
     private val battery: Battery = mock()
-    private val classUnderTest = CarImpl(null, battery)
+    private val engine: Engine = mock()
+    companion object{
+        const val FLAT_BATTERY = 0
+        const val FULL_BATTERY = 100
+    }
 
     @Test
     fun engineIsMissing_AndBatteryFlat_NothingHappens_WhenSwitchedOn_UnClear() {
-        whenever(battery.getCharge()) doReturn 0
+        val classUnderTest = CarImpl(null, battery)
+        whenever(battery.getCharge()) doReturn FLAT_BATTERY
         classUnderTest.switchOn()
         assertEquals(classUnderTest.checkBatteryLightOn(), true)
         assertEquals(classUnderTest.checkEngineLightOn(), true)
@@ -29,14 +34,17 @@ class ExampleUnitTest {
 
     @Test
     fun engineIsMissing_NothingHappens_WhenSwitchedOn_Clear() {
-        whenever(battery.getCharge()) doReturn 100
+        val classUnderTest = CarImpl(null, battery)
+        whenever(battery.getCharge()) doReturn FULL_BATTERY
         classUnderTest.switchOff()
-        fail()
+        assertEquals(classUnderTest.checkEngineLightOn(), true)
+        assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
     }
 
     @Test
     fun batteryIsFlat_NothingHappens_WhenSwitchedOn_Clear() {
-        whenever(battery.getCharge()) doReturn 0
+        val classUnderTest = CarImpl(engine, battery)
+        whenever(battery.getCharge()) doReturn FLAT_BATTERY
         classUnderTest.switchOn()
         assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
     }
