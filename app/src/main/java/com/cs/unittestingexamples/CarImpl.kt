@@ -7,6 +7,13 @@ enum class EngineState {
     OFF
 }
 
+class BatteryImpl() : Battery{
+    private val charge: Int = 100
+    override fun getCharge(): Int {
+        return charge
+    }
+}
+
 class EngineImpl(state: EngineState): Engine {
     private var engineState = state
 
@@ -23,14 +30,21 @@ class EngineImpl(state: EngineState): Engine {
 }
 
 
-class CarImpl(private val engine: Engine?): Car {
+class CarImpl(private val engine: Engine?, private val battery: Battery?): Car {
+
+    private var batteryLight = false
+    private var engineLight = false
 
     override fun switchOn() {
-        if (engine == null) {
-            throw IllegalStateException("No Engine!")
+        when {
+            battery == null -> batteryLight = true
+            battery.getCharge() <= 0 -> batteryLight = true
+            engine == null -> engineLight = true
+            battery.getCharge() > 0 -> engine.switchOn()
         }
-        engine.switchOn()
     }
+
+
 
     override fun switchOff() {
         if (engine == null) {
@@ -44,5 +58,13 @@ class CarImpl(private val engine: Engine?): Car {
             throw IllegalStateException("No Engine!")
         }
         return engine.getEngineState()
+    }
+
+    override fun checkBatteryLightOn(): Boolean {
+        return batteryLight
+    }
+
+    override fun checkEngineLightOn(): Boolean {
+        return engineLight
     }
 }

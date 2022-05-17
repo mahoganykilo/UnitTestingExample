@@ -1,6 +1,7 @@
 package com.cs.unittestingexamples
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.fail
 import org.junit.Test
 import org.mockito.kotlin.doNothing
 import org.mockito.kotlin.doReturn
@@ -14,21 +15,29 @@ import org.mockito.kotlin.whenever
  */
 class ExampleUnitTest {
 
+    private val battery: Battery = mock()
+    private val classUnderTest = CarImpl(null, battery)
+
     @Test
-    fun engineIsOff_EngineTurnsOn_WhenSwitchedOn() {
-        val engine:Engine= mock()
-        whenever(engine.getEngineState()) doReturn EngineState.ON
-        val classUnderTest = CarImpl(engine)
+    fun engineIsMissing_AndBatteryFlat_NothingHappens_WhenSwitchedOn_UnClear() {
+        whenever(battery.getCharge()) doReturn 0
         classUnderTest.switchOn()
-        assertEquals(classUnderTest.checkEngineState(), EngineState.ON)
+        assertEquals(classUnderTest.checkBatteryLightOn(), true)
+        assertEquals(classUnderTest.checkEngineLightOn(), true)
+        assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
     }
 
     @Test
-    fun engineIsOn_EngineTurnsOff_WhenSwitchedOff() {
-        val engine:Engine= mock()
-        whenever(engine.getEngineState()) doReturn EngineState.OFF
-        val classUnderTest = CarImpl(engine)
+    fun engineIsMissing_NothingHappens_WhenSwitchedOn_Clear() {
+        whenever(battery.getCharge()) doReturn 100
         classUnderTest.switchOff()
+        fail()
+    }
+
+    @Test
+    fun batteryIsFlat_NothingHappens_WhenSwitchedOn_Clear() {
+        whenever(battery.getCharge()) doReturn 0
+        classUnderTest.switchOn()
         assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
     }
 }

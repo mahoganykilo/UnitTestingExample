@@ -5,3 +5,7 @@ interface Engine {
     fun switchOff()
     fun getEngineState(): EngineState
 }
+
+interface Battery {
+    fun getCharge(): Int
+}
