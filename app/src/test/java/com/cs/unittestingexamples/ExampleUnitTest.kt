@@ -16,11 +16,4 @@ class ExampleUnitTest {
         classUnderTest.switchOn()
         assertEquals(classUnderTest.checkEngineState(), EngineState.ON)
     }
-
-    @Test
-    fun engineIsOn_EngineTurnsOff_WhenSwitchedOff() {
-        val classUnderTest = CarImpl(EngineState.ON)
-        classUnderTest.switchOff()
-        assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
-    }
 }
