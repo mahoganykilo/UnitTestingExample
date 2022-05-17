@@ -4,7 +4,8 @@ import java.lang.IllegalStateException
 
 enum class EngineState {
     ON,
-    OFF
+    OFF,
+    MISSING
 }
 
 class BatteryImpl() : Battery{
@@ -36,30 +37,19 @@ class CarImpl(private val engine: Engine?, private val battery: Battery?): Car {
     private var engineLight = false
 
     override fun switchOn() {
-        when {
-            battery == null -> batteryLight = true
-            battery.getCharge() <= 0 -> batteryLight = true
-            engine == null -> engineLight = true
-
-            // As we test for engine == null above this logic implicitly requires engine != null
-            battery.getCharge() > 0 -> engine.switchOn()
-        }
+        if (engine == null) engineLight = true
+        if (battery == null || battery.getCharge() <= 0)  batteryLight = true
+        else engine?.switchOn()
     }
 
 
 
     override fun switchOff() {
-        if (engine == null) {
-            throw IllegalStateException("No Engine!")
-        }
-        engine.switchOff()
+        engine?.switchOff()
     }
 
     override fun checkEngineState(): EngineState {
-        if (engine == null) {
-            throw IllegalStateException("No Engine!")
-        }
-        return engine.getEngineState()
+        return engine?.getEngineState() ?: EngineState.MISSING
     }
 
     override fun checkBatteryLightOn(): Boolean {

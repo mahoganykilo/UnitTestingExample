@@ -3,10 +3,7 @@ package com.cs.unittestingexamples
 import org.junit.Assert.assertEquals
 import org.junit.Assert.fail
 import org.junit.Test
-import org.mockito.kotlin.doNothing
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
-import org.mockito.kotlin.whenever
+import org.mockito.kotlin.*
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -27,25 +24,27 @@ class ExampleUnitTest {
         val classUnderTest = CarImpl(null, battery)
         whenever(battery.getCharge()) doReturn FLAT_BATTERY
         classUnderTest.switchOn()
-        assertEquals(classUnderTest.checkBatteryLightOn(), true)
-        assertEquals(classUnderTest.checkEngineLightOn(), true)
-        assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
+        assertEquals(true, classUnderTest.checkBatteryLightOn())
+        assertEquals(true, classUnderTest.checkEngineLightOn())
+        assertEquals(EngineState.MISSING, classUnderTest.checkEngineState())
     }
 
     @Test
     fun engineIsMissing_NothingHappens_WhenSwitchedOn_Clear() {
         val classUnderTest = CarImpl(null, battery)
         whenever(battery.getCharge()) doReturn FULL_BATTERY
-        classUnderTest.switchOff()
-        assertEquals(classUnderTest.checkEngineLightOn(), true)
-        assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
+        classUnderTest.switchOn()
+        assertEquals(true, classUnderTest.checkEngineLightOn())
+        assertEquals(EngineState.MISSING, classUnderTest.checkEngineState())
     }
 
     @Test
     fun batteryIsFlat_NothingHappens_WhenSwitchedOn_Clear() {
         val classUnderTest = CarImpl(engine, battery)
+        whenever(engine.getEngineState()) doReturn EngineState.OFF
         whenever(battery.getCharge()) doReturn FLAT_BATTERY
         classUnderTest.switchOn()
-        assertEquals(classUnderTest.checkEngineState(), EngineState.OFF)
+        assertEquals(EngineState.OFF, classUnderTest.checkEngineState())
+        assertEquals(true, classUnderTest.checkBatteryLightOn())
     }
 }
