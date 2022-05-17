@@ -27,6 +27,7 @@ class ExampleUnitTest {
         assertEquals(true, classUnderTest.checkBatteryLightOn())
         assertEquals(true, classUnderTest.checkEngineLightOn())
         assertEquals(EngineState.MISSING, classUnderTest.checkEngineState())
+        verify(battery).getCharge()
     }
 
     @Test
@@ -36,6 +37,7 @@ class ExampleUnitTest {
         classUnderTest.switchOn()
         assertEquals(true, classUnderTest.checkEngineLightOn())
         assertEquals(EngineState.MISSING, classUnderTest.checkEngineState())
+        verify(battery).getCharge()
     }
 
     @Test
@@ -46,5 +48,6 @@ class ExampleUnitTest {
         classUnderTest.switchOn()
         assertEquals(EngineState.OFF, classUnderTest.checkEngineState())
         assertEquals(true, classUnderTest.checkBatteryLightOn())
+        verify(engine).getEngineState()
     }
 }
