@@ -1,24 +1,27 @@
 package com.cs.unittestingexamples
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import java.lang.IllegalStateException
 
 enum class EngineState {
     ON,
-    OFF
+    OFF,
+    MISSING
 }
 
 class EngineImpl(state: EngineState, cylinders: Int, valves: String, capacity: Double): Engine {
-    private var engineState = state
+    private var engineState: MutableLiveData<EngineState> = MutableLiveData(EngineState.OFF)
 
     override fun switchOn() {
-        engineState = EngineState.ON
+        engineState.value = EngineState.ON
     }
 
     override fun switchOff() {
-        engineState = EngineState.OFF
+        engineState.value = EngineState.OFF
     }
     override fun getEngineState(): EngineState {
-        return engineState
+        return engineState.value ?: EngineState.MISSING
     }
 }
 
